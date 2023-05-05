@@ -4,13 +4,14 @@
 #include "QFileDialog"
 #include "QMessageBox"
 #include "QFontDialog"
+#include "textedit.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setCentralWidget(ui->textEdit);
+    this->setCentralWidget(ui->tabWidget);
 }
 
 MainWindow::~MainWindow()
@@ -20,11 +21,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_new_file_triggered()
 {
-    qDebug() << "on_new_file_triggered";
-    // 清空
-    current_file_.clear();
-    ui->textEdit->setText("");
-
+    TextEdit* my_text_edit = new TextEdit(this);
+    ui->tabWidget->addTab(my_text_edit, "new");
 }
 
 void MainWindow::on_open_file_triggered()

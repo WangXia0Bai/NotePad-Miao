@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         images.qrc
+        textedit.h textedit.cpp textedit.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
