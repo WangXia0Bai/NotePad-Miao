@@ -9,6 +9,7 @@ TextEdit::TextEdit(QWidget *parent) :
 
     // 初始化
     hScrollBarInit();
+    vScrollBarInit();
     fontInit();
     lineNumInit();
 }
@@ -22,6 +23,12 @@ void TextEdit::hScrollBarInit()
 {
     connect(ui->textEdit->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(textEditHScrollBarChanged()));
     connect(ui->horizontalScrollBar,SIGNAL(valueChanged(int)),this,SLOT(scrollBarChanged()));
+}
+
+void TextEdit::vScrollBarInit()
+{
+    connect(ui->textEdit->verticalScrollBar(),SIGNAL(valueChanged(int)),this,SLOT(textEditVScrollBarChanged()));
+    connect(ui->textBrowser->verticalScrollBar(),SIGNAL(valueChanged(int)),this,SLOT(textBrowserVScrollBarChanged()));
 }
 
 void TextEdit::fontInit()
@@ -52,6 +59,16 @@ void TextEdit::scrollBarChanged()
     ui->textEdit->horizontalScrollBar()->setValue(ui->horizontalScrollBar->value());
 }
 
+void TextEdit::textEditVScrollBarChanged()
+{
+    ui->textBrowser->verticalScrollBar()->setValue(ui->textEdit->verticalScrollBar()->value());
+}
+
+void TextEdit::textBrowserVScrollBarChanged()
+{
+    ui->textEdit->verticalScrollBar()->setValue(ui->textBrowser->verticalScrollBar()->value());
+}
+
 void TextEdit::onTextChanged()
 {
     // 获取 TextEdit 的行数
@@ -63,9 +80,6 @@ void TextEdit::onTextChanged()
 
     // 获取 TextBrowser 的行数
     int line_count_of_textbrowser = lines.size();
-
-    qDebug()<<"line_count_of_textedit:"<<line_count_of_textedit;
-    qDebug()<<"line_count_of_textbrowser:"<<line_count_of_textbrowser;
 
     // 如果 TextBrowser 的行数小于 TextEdit 的行数，则在末尾添加缺失行数的行号
     if (line_count_of_textbrowser < line_count_of_textedit) {
